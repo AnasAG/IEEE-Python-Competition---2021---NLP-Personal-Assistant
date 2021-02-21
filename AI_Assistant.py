@@ -4,7 +4,7 @@
 # Import Libraries
 import speech_recognition as sr
 import pyttsx3
-import flask_webapp
+# import flask_webapp
 
 # libs for user commands
 import datetime
@@ -70,7 +70,7 @@ def takeCommand():
             statement = r.recognize_google(audio, language='en-in')
             print(f"User said:{statement}\n")
 
-        except Exception as e:
+        except Exception:
             speak(random.choice(repeat_command))
             return "None"
 
@@ -130,12 +130,12 @@ def digital_commands(audio):
         speak(f"the time is {strTime}")
 
     elif 'news' in statement:
-        news = webbrowser.open_new_tab("https://edition.cnn.com/")
+        webbrowser.open_new_tab("https://edition.cnn.com/")
         speak('Here are some headlines from the CNN news, Happy reading')
         time.sleep(6)
 
     elif "camera" in statement or "take a photo" in statement:
-        ec.capture(0, "robo camera", False)
+        ec.capture(0, "CapturedByPythonProgramCamera", False)
 
     elif 'search' in statement:
         statement = statement.replace("search", "")
