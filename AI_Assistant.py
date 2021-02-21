@@ -22,6 +22,9 @@ import wolframalpha
 import os
 import subprocess
 
+###########
+# Just testing git
+###########
 # _________________________________________________________________
 # Setup voice engine
 
