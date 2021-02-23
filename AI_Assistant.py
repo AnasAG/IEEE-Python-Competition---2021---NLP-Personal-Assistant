@@ -55,21 +55,25 @@ class App(threading.Thread):
         self.txt.grid(row=1, column=1, sticky=W + E, padx=20, pady=20)
         print('App create widgets')
 
+    def button_value(self):
+        self.assistant_mode = 1
+        print("self.assistant_mode is ", self.assistant_mode)
+        print('inside button_value func')
+
     def callback(self):
         self.root.quit()
 
     def run(self):
-        import time
         self.root = Tk()
         self.configure_root()
         Label(self.root, text='Personal Assistant', anchor=CENTER).grid(row=0, columnspan=2)
-        Button(self.root, text='Start Assistant', textvar = self.assistant_mode ,cursor='hand2').grid(row=1, column=0,
+        Button(self.root, text='Start Assistant', command = self.button_value,cursor='hand2').grid(row=1, column=0,
                                                                        sticky=W + E)  # , image=mic_image
         self.txt = Text(self.root)
         self.txt.grid(row=1, column=1, sticky=W + E, padx=20, pady=20)
         self.root.update()
         self.root.update_idletasks()
-        # time.sleep(2)
+
         self.root.protocol("WM_DELETE_WINDOW", self.callback)
         self.root.mainloop()
 
@@ -84,6 +88,7 @@ class App(threading.Thread):
         self.txt.insert(END, "User: " + text_input + "\n")
 
 
+# initialize the GUI class, to be able to use its functions in the code
 app = App()
 time.sleep(2)  # time for the gui setup to complete processing
 
@@ -169,6 +174,8 @@ def digital_commands(audio):
         engine.stop()
         config.ai_assistant_running = False
         config.silence_counter = 0
+        app.assistant_mode = 0
+        config.was_assistant_off = 1
         # to exit the function and not check the other commands
         return None
 
@@ -281,15 +288,20 @@ if __name__ == '__main__':
     # run greeting function
     greeting()
     # set ai_assistant_running True to run the while loop below
-    config.ai_assistant_running = True
+    # config.ai_assistant_running = True
     if config.ai_assistant_running: speak(random.choice(speech))
 
-    while config.ai_assistant_running:
-        # hear the user and take command
-        print("still in while loop ...")
-        audio = takeCommand().lower()
-        # take action and do what the user asks for
-        digital_commands(audio)
+    while True:
+
+        if config.ai_assistant_running:
+            # if config.was_assistant_off:
+            #     greeting()
+            #     config.was_assistant_off = 1
+            # hear the user and take command
+            print("still in while loop ...")
+            audio = takeCommand().lower()
+            # take action and do what the user asks for
+            digital_commands(audio)
 
         if app.assistant_mode:
             turn_assistant_on()
