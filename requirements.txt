@@ -7,3 +7,6 @@ requests~=2.24.0
 pyaudio~=0.2.11
 wolframalpha~=4.1.1
 ecapture~=0.1.8
+pyjokes~=0.6.0
+pillow~=8.0.1
+future~=0.18.2
