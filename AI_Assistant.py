@@ -14,7 +14,7 @@ from ecapture import ecapture as ec
 import pyjokes
 import random
 import config
-
+import sys
 from tkinter import *
 from tkinter.ttk import *
 import threading
@@ -23,7 +23,7 @@ import threading
 class App(threading.Thread):
 
     def __init__(self):
-        threading.Thread.__init__(self)
+        self.thread = threading.Thread.__init__(self)
         self.start()
         self.root = None
         self.button = None
@@ -35,23 +35,23 @@ class App(threading.Thread):
         self.root.rowconfigure(0)  # , minsize=100, weight=1
         self.root.columnconfigure(0)  # , minsize=100, weight=1
         # self.root.geometry("")
-        self.root.iconbitmap(r"images\microphone.png")
+        # self.root.iconbitmap(r"images\microphone.png")
         # self.root.resizable(width=FALSE, height=FALSE)
 
-    def button_value(self):
+    def set_button_value(self):
         self.assistant_mode = 1
-        print("self.assistant_mode is ", self.assistant_mode)
-        print('inside button_value func')
 
     def callback(self):
         self.root.quit()
+        # self.root.destroy()
+        # sys.exit()
 
     def run(self):
         self.root = Tk()
         self.configure_root()
         Label(self.root, text='Personal Assistant', anchor=CENTER,
               font=("Poor Richard", 30, "bold")).grid(row=0, padx=10, pady=5)
-        self.button = Button(self.root, text='Start Assistant', command=self.button_value,
+        self.button = Button(self.root, text='Start Assistant', command=self.set_button_value,
                              cursor='hand2', state=DISABLED)
         # self.button.grid(row=1, column=0, padx=5, pady=5)
         self.txt = Text(self.root, wrap=WORD, state=DISABLED, spacing1=5)
@@ -62,22 +62,20 @@ class App(threading.Thread):
         self.root.protocol("WM_DELETE_WINDOW", self.callback)
         self.root.mainloop()
 
-    def run_app_with_code(self):
-        self.root.protocol("WM_DELETE_WINDOW", self.callback)
-        self.root.mainloop()
-
     def text_insert_assistant(self, text_input):
         self.txt.configure(state=NORMAL)
         self.txt.insert(END, "Assistant: " + text_input + "\n")
+        self.txt.see(END)
         self.txt.configure(state=DISABLED)
 
     def text_insert_user(self, text_input):
         self.txt.configure(state=NORMAL)
         self.txt.insert(END, "User: " + text_input + "\n")
+        self.txt.see(END)
         self.txt.configure(state=DISABLED)
 
     def restart_personal_assistant(self):
-        if config.ai_assistant_running == False and app.assistant_mode == 0:
+        if config.ai_assistant_running is False and app.assistant_mode == 0:
             self.button.config(state=NORMAL)
             self.button.grid(row=1, column=0, padx=5, pady=5)
         else:
@@ -152,7 +150,7 @@ def takeCommand():
 def digital_commands(audio):
     """Contains the commands which the personal assistant can perform"""
     statement = audio
-    created_by = ["who made you", "who created you", "who discovered you", "your name"]
+    created_by = ["who made you", "who created you", "who discovered you", "your name", "who built you"]
     bye_bye = ["bye", "stop", "shut down", "shutdown", "turn off", "turnoff"]
     available_commands = ["commands", "tasks", "assist"]
     connectors = ["how", "what", "can", "do"]
@@ -314,10 +312,8 @@ if __name__ == '__main__':
 # shift print before speak command
 # Text Widget not editable
 # modify "start recording" button
+# add how r u command
+# auto scroll text widget till end
 
 # Dev:
-# 6. Test each command function
-# remove the print statements
-# auto scroll text widget till end
-# fix error when exiting the app
-# add how r u command
+# fix error when exiting the app from gui
