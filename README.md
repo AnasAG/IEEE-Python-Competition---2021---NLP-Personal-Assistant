@@ -1,4 +1,6 @@
 # NLP Personal Assistant
+
+## Overview
 The goal is to create a personal assistant similar to Siri or Alexa (simplified version).
 The code is able to record the audio through the microphone Speech-to-Text STT, then understant what the user said and run the suitable command. The command will run, then using the Text-to-Speech TTS will the program communicate with the user about the action.
 The program has a simple GUI interface, where the user can see the conversation between him and the assistant as text.
