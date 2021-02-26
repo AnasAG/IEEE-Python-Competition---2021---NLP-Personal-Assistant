@@ -17,3 +17,8 @@ The perosnal assistant could handle a couple of tasks:
 - Give info about itself and some available commands
 - Tell funny jokes
 - Shutdown the personal assistant when the user says so
+
+## Contribution:
+
+I built this program for the sake of learning and getting familiar with the NLP capabilities.
+Any modifications and enhancements are welcome.
